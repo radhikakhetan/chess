@@ -68,7 +68,8 @@ public class ChessBoard {
 
 	String findPreviousPosition(ChessPiece piece, String move) {
 
-		List<String> validMoves = piece.findAllValidMoves(move);
+		boolean captured = move.contains("x");
+		List<String> validMoves = piece.findAllValidMoves(move,captured);
 		for (String s : validMoves) {
 			//System.out.println(validMoves+" "+s);
 			if(chessboard.containsKey(s)){
