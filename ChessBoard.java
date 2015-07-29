@@ -53,17 +53,26 @@ public class ChessBoard {
 		return new ChessPiece(name,color) ;
 		
 	}
-	String findPreviousPosition(char piece, String move){
-		return move;
+	String findPreviousPosition(ChessPiece piece, String move){
 		
+		List<String> validMoves = piece.findAllValidMoves(move);
+		for (String s : validMoves) {
+			ChessPiece p = chessboard.get(s) ;
+			if(p.equals(piece))
+				return s ;
+		}	
+		return " " ;
 	}
+	
 	void updateBoard(){
 		
 	}
 	void displayBoard(){
 		
 	}
-	void move(String move){
+	void move(String move,int n){
+		ChessPiece piece = findPiece(move , n) ;
+		String previousposition = findPreviousPosition (piece ,move) ;
 		//calls findPiece
 		//findPreviousPosition
 		//updateBoard
