@@ -16,7 +16,9 @@ class ChessPiece {
 								  {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
 								  {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}};
 
-	final int[][] pawnMoves = {{0, 1}, {0, -1}};
+	final int[][] blackPawn = {{0, -1}, {0, -2}, {-1, -1}, {-1, 1}};
+	final int[][] whitePawn = {{0, 1}, {0, 2}, {1, -1}, {1, 1}};
+	
 	char name;
 	char color;
 	
@@ -47,7 +49,10 @@ class ChessPiece {
 			case 'B':
 				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), bishopMoves);
 			case ' ':
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), pawnMoves);
+				if ( this.color == 'W' )
+					return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), whitePawn);
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), blackPawn);
+					
 			default:
 				return new ArrayList<String>();
 		}	
