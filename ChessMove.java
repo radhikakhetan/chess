@@ -2,7 +2,7 @@ package chess;
 
 public class ChessMove {
 
-	boolean isCaptured;
+	boolean isCapturing;
 	char file;
 	int rank;
 	char ambiguity;
@@ -13,7 +13,7 @@ public class ChessMove {
 		if(move.equals("o-o")){
 			kingCastling = true;
 			queenCastling = false;
-			isCaptured = false;
+			isCapturing = false;
 			file = ' ';
 			rank = -1;
 			ambiguity = ' ';
@@ -22,7 +22,7 @@ public class ChessMove {
 		else if(move.equals("O-O-O")){
 			kingCastling = false;
 			queenCastling = true;
-			isCaptured = false;
+			isCapturing = false;
 			file = ' ';
 			rank = -1;
 			ambiguity = ' ';
@@ -37,10 +37,10 @@ public class ChessMove {
 		queenCastling = false;
 		kingCastling = false;
 		if(move.contains("x")){
-			isCaptured = true;
+			isCapturing = true;
 		}
 		else{
-			isCaptured = false;
+			isCapturing = false;
 		}
 		if(move.charAt(0) >= 'A' && move.charAt(0) <= 'Z' && move.length() > 3){
 			ambiguity = move.charAt(1);
@@ -52,8 +52,8 @@ public class ChessMove {
 	private static String removeLastChar(String str) {
         return str.substring(0,str.length()-1);
     }
-	boolean isCaptured(){
-		return isCaptured;
+	boolean isCapturing(){
+		return isCapturing;
 	}
 	boolean isAmbiguous(){
 		if(ambiguity == ' ')
@@ -61,22 +61,20 @@ public class ChessMove {
 		else
 			return true;
 	}
+	char getAmbiguousPosition(){
+		return ambiguity;
+	}
+	boolean isCastling(){
+		return kingCastling || queenCastling;
+	}
 	boolean isKingCastling(){
 		return kingCastling;
 	}
 	boolean isQueenCastling(){
 		return queenCastling;
 	}
-	void display(){
-		System.out.println("Rank :"+rank);
-		System.out.println("File :"+file);
-		System.out.println("KingCastling :"+kingCastling);
-		System.out.println("QueenCastling :"+queenCastling);
-		System.out.println("Ambiguity :"+ambiguity);
-		System.out.println("Captured :"+isCaptured);
-	}
-	public static void main(String args[]){
-		ChessMove cm = new ChessMove("");
-		cm.display();
-	}
+    String getMove(){
+    	return file+""+rank;
+    }
+	
 }
