@@ -74,4 +74,16 @@ class ChessPiece {
 	private boolean insideBoard(char file, int rank){
 		return ('a' <= file && file <= 'h') && (1 <= rank && rank <= 8);
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if ( this == o )
+			return true;
+		
+		if ( !(o instanceof ChessPiece) )
+			return false;
+		
+		ChessPiece c = (ChessPiece) o;
+		return this.name == c.name && this.color == c.color;
+	}
 }
