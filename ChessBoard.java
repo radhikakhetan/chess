@@ -1,5 +1,5 @@
-
 import java.util.*;
+import java.util.Map.Entry;
 
 public class ChessBoard {
 	
@@ -50,14 +50,30 @@ public class ChessBoard {
 		piecename.put(' ', "Pawn");
 		
 	}
-	char findPiece(String move){
-		return 0;
+	ChessPiece findPiece(String move , int n){
+		char name,color ;
+		if(move.length() == 2)
+			name = ' ' ;
+		else
+			name = move.charAt(0);
+		if(n==0)
+			color = 'W';
+		else
+			color = 'B' ;
+		return new ChessPiece(name,color) ;
 		
 	}
-	String findPreviousPosition(char piece, String move){
-		return move;
+	String findPreviousPosition(ChessPiece piece, String move){
 		
+		List<String> validMoves = piece.findAllValidMoves(move);
+		for (String s : validMoves) {
+			ChessPiece p = chessboard.get(s) ;
+			if(p.equals(piece))
+				return s ;
+		}	
+		return " " ;
 	}
+	
 	void updateBoard(String previous_position, String new_position){
 		
 		ChessPiece cp = chessboard.get(previous_position);
@@ -66,17 +82,24 @@ public class ChessBoard {
 		
 	}
 	void displayBoard(){
-		Iterator it = chessboard.entrySet().iterator();
+		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
 		while(it.hasNext()){
-			String 
+			ChessPiece cp = chessboard.get(it.next());
+			String piece = piecename.get(cp.name);
+			if(cp.color == 'B'){
+				piece = "Black" + piece;
+			}
+			else {
+				piece = "White" + piece;
+			}	
+			System.out.println(it.next() + " : " + piece);
 		}
-		
 	}
-	void move(String move){
-		//calls findPiece
-		//findPreviousPosition
-		//updateBoard
-		//displayBoard
+	void move(String move,int n){
+		
+		ChessPiece piece = findPiece(move ,n) ;
+		String previousposition = findPreviousPosition (piece ,move) ;
+		updateBoard(previousposition , move) ;
 	}
 	public static void main(String args[]){
 		
