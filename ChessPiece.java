@@ -1,3 +1,4 @@
+package chess;
 class ChessPiece {
 	
 	char name;
