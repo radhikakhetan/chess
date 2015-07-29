@@ -53,6 +53,7 @@ class ChessPiece {
 
 	private List<String> findAllValidKingMoves(char file, int rank) {
 		List<String> possibleMoves = new ArrayList<String>();
+		
 		return possibleMoves;
 	}
 
@@ -83,5 +84,8 @@ class ChessPiece {
 	private List<String> findAllValidPawnMoves(char file, int rank) {
 		List<String> possibleMoves = new ArrayList<String>();
 		return possibleMoves;
+	}
+	private boolean insideBoard(char file, int rank){
+		return ('a' <= file && file <= 'h') && (1 <= rank && rank <= 8);
 	}
 }
