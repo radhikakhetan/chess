@@ -1,3 +1,5 @@
+package chess;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -6,7 +8,7 @@ public class ChessBoard {
 	Map<String,ChessPiece> chessboard;
 	Map<Character,String> piecename;
 	
-	ChessBoard(){
+	public ChessBoard(){
 		chessboard = new HashMap<String,ChessPiece>() ;
 		chessboard.put("a1", new ChessPiece('R','W')) ;
 		chessboard.put("b1", new ChessPiece('N','W')) ;
@@ -84,15 +86,15 @@ public class ChessBoard {
 	void displayBoard(){
 		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
 		while(it.hasNext()){
-			ChessPiece cp = chessboard.get(it.next());
+			ChessPiece cp = chessboard.get(it.next().getKey());
 			String piece = piecename.get(cp.name);
 			if(cp.color == 'B'){
-				piece = "Black" + piece;
+				piece = "Black " + piece;
 			}
 			else {
-				piece = "White" + piece;
+				piece = "White " + piece;
 			}	
-			System.out.println(it.next() + " : " + piece);
+			System.out.println(it.next().getKey() + " : " + piece);
 		}
 	}
 	void move(String move,int n){
@@ -100,5 +102,10 @@ public class ChessBoard {
 		ChessPiece piece = findPiece(move ,n) ;
 		String previousposition = findPreviousPosition (piece ,move) ;
 		updateBoard(previousposition , move) ;
+	}
+	public static void main(String args[]){
+		ChessBoard cb = new ChessBoard();
+		cb.displayBoard();
+		//cb.move(move, n);
 	}
 }
