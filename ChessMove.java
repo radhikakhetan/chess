@@ -8,8 +8,9 @@ public class ChessMove {
 	char ambiguity;
 	boolean kingCastling;
 	boolean queenCastling;
+	ChessPiece cp;
 	
-	ChessMove(String move){
+	ChessMove(String move, int turn){
 		if(move.equals("o-o")){
 			kingCastling = true;
 			queenCastling = false;
@@ -42,14 +43,33 @@ public class ChessMove {
 		else{
 			isCapturing = false;
 		}
-		if(move.charAt(0) >= 'A' && move.charAt(0) <= 'Z' && move.length() > 3){
+		char name,color;
+		
+		if(Character.isUpperCase(move.charAt(0)) && move.length() > 3){
 			ambiguity = move.charAt(1);
+			name = move.charAt(0);
 		}
-		else
+		else if(Character.isUpperCase(move.charAt(0))){
 			ambiguity = ' ';
+			name = move.charAt(0);
+		}
+		else{
+			name = ' ';
+		}
+		
+		if(turn == 1){
+			color = 'W';
+		}
+		else {
+			color = 'B';
+		}
+		cp = new ChessPiece(name,color);
 		
 	}
-	private static String removeLastChar(String str) {
+	ChessPiece getChessPiece(){
+		return cp;
+	}
+	private String removeLastChar(String str) {
         return str.substring(0,str.length()-1);
     }
 	boolean isCapturing(){
