@@ -62,7 +62,6 @@ public class ChessBoard {
 
 	String findPreviousPosition(ChessMove move) {
 		boolean captured = move.isCapturing();
-		
 		List<String> validMoves = move.getChessPiece().findAllValidMoves(move.getMove(), captured);
 		for (String eachValid : validMoves) {
 			if ( chessboard.containsKey(eachValid) ) {
@@ -86,9 +85,8 @@ public class ChessBoard {
 	}
 
 	void displayBoard() {
-		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet()
-				.iterator();
-		while (it.hasNext()) {
+		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
+		while ( it.hasNext() ) {
 			String pos = it.next().getKey();
 			ChessPiece cp = chessboard.get(pos);
 			String piece = piecename.get(cp.name);
