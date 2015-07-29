@@ -3,7 +3,6 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ChessBoard {
-
 	Map<String, ChessPiece> chessboard;
 	Map<Character, String> piecename;
 
@@ -49,16 +48,15 @@ public class ChessBoard {
 		piecename.put('R', "Rook");
 		piecename.put('N', "Knight");
 		piecename.put(' ', "Pawn");
-
 	}
 
-	ChessPiece findPiece(String move, int n) {
+	ChessPiece findPiece(String move, int turn) {
 		char name, color;
 		if (move.length() == 2)
 			name = ' ';
 		else
 			name = move.charAt(0);
-		if (n == 0)
+		if (turn == 1)
 			color = 'W';
 		else
 			color = 'B';
@@ -67,14 +65,12 @@ public class ChessBoard {
 	}
 
 	String findPreviousPosition(ChessPiece piece, String move) {
-
 		boolean captured = move.contains("x");
 		List<String> validMoves = piece.findAllValidMoves(move,captured);
 		for (String s : validMoves) {
-			//System.out.println(validMoves+" "+s);
 			if(chessboard.containsKey(s)){
 				ChessPiece p = chessboard.get(s);
-				if(p.color == piece.color && p.name == piece.name){
+				if(piece.equals(p)){
 					return s;
 				}
 			}	
@@ -83,19 +79,17 @@ public class ChessBoard {
 	}
 
 	void updateBoard(String previous_position, String new_position) {
-
 		ChessPiece cp = chessboard.get(previous_position);
 		chessboard.remove(previous_position);
 		chessboard.put(new_position, cp);
-
 	}
 
 	void displayBoard() {
-		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet()
-				.iterator();
+		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
 		while (it.hasNext()) {
 			String pos = it.next().getKey();
 			ChessPiece cp = chessboard.get(pos);
+			System.out.println(pos);
 			String piece = piecename.get(cp.name);
 			if (cp.color == 'B') {
 				piece = "Black " + piece;
@@ -106,11 +100,9 @@ public class ChessBoard {
 		}
 	}
 
-	void move(String move, int n) {
-
-		ChessPiece piece = findPiece(move, n);
+	void move(String move, int turn) {
+		ChessPiece piece = findPiece(move, turn);
 		String previousposition = findPreviousPosition(piece, move);
-		System.out.println(previousposition+" "+move);
 		updateBoard(previousposition, move);
 	}
 
