@@ -1,4 +1,5 @@
 e4 e5
 Nf3 Nc6
-b5 a6
+Bb5 a6
 Ba4 Nf6
+O-O Be7
