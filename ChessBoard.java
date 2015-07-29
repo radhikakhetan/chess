@@ -60,13 +60,13 @@ public class ChessBoard {
 		return new ChessPiece(name, color);
 	}
 
-	String findPreviousPosition(ChessPiece piece, ChessMove move) {
+	String findPreviousPosition(ChessMove move) {
 		boolean captured = move.isCapturing();
 		
-		List<String> validMoves = piece.findAllValidMoves(move.getMove(), captured);
+		List<String> validMoves = move.getChessPiece().findAllValidMoves(move.getMove(), captured);
 		for (String eachValid : validMoves) {
 			if ( chessboard.containsKey(eachValid) ) {
-				if ( piece.equals(chessboard.get(eachValid)) ) {
+				if ( move.getChessPiece().equals(chessboard.get(eachValid)) ) {
 					if ( move.isAmbiguous() ) {
 						if ( eachValid.contains(Character.toString(move.getAmbiguousPosition())) ) {
 							return eachValid;
@@ -125,13 +125,12 @@ public class ChessBoard {
 	}
 
 	void move(String move, int turn) {
-		ChessMove nextMove = new ChessMove(move);
+		ChessMove nextMove = new ChessMove(move, turn);
 		if ( nextMove.isCastling() ) {
 			performCastling(turn, nextMove.isKingCastling());
 		}
 		else {
-			ChessPiece piece = findPiece(nextMove.getMove(), turn);
-			String previousPosition = findPreviousPosition(piece, nextMove);
+			String previousPosition = findPreviousPosition(nextMove);
 			updateBoard(previousPosition, nextMove.getMove());
 		}
 	}
