@@ -16,10 +16,10 @@ class ChessPiece {
 								  {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
 								  {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}};
 
-	final int[][] blackPawn = {{0, -1}, {0, -2}};
-	final int[][] whitePawn = {{0, 1}, {0, 2}};
-	final int[][] blackPawnCapture = {{-1, -1}, {-1, 1}};
-	final int[][] whitePawnCapture = {{1, 1}, {-1, 1}};
+	final int[][] blackPawn = {{0, 1}, {0, 2}};
+	final int[][] whitePawn = {{0, -1}, {0, -2}};
+	final int[][] blackPawnCapture = {{-1, 1}, {1, 1}};
+	final int[][] whitePawnCapture = {{1, -1}, {-1, -1}};
 	
 	char name;
 	char color;
@@ -100,5 +100,10 @@ class ChessPiece {
 		
 		ChessPiece c = (ChessPiece) o;
 		return this.name == c.name && this.color == c.color;
+	}
+	
+	@Override
+	public String toString() {
+		return this.name + " " + this.color;
 	}
 }
