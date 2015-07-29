@@ -1,5 +1,3 @@
-package chess;
-
 public class ChessMove {
 
 	boolean isCapturing;
