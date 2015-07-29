@@ -4,6 +4,7 @@ import java.util.*;
 public class ChessBoard {
 	
 	Map<String,ChessPiece> chessboard;
+	Map<Character,String> piecename;
 	
 	ChessBoard(){
 		Map<String,ChessPiece> chessboard = new HashMap<String,ChessPiece>() ;
@@ -40,7 +41,7 @@ public class ChessBoard {
 		chessboard.put("g8", new ChessPiece('N','B')) ;
 		chessboard.put("h8", new ChessPiece('R','B')) ;
 		
-		
+		//piecename.put('K', King);
 		
 	}
 	char findPiece(String move){
@@ -51,10 +52,15 @@ public class ChessBoard {
 		return move;
 		
 	}
-	void updateBoard(){
+	void updateBoard(String previous_position, String new_position){
+		
+		ChessPiece cp = chessboard.get(previous_position);
+		chessboard.remove(previous_position);
+		chessboard.put(new_position, cp);
 		
 	}
 	void displayBoard(){
+		
 		
 	}
 	void move(String move){
