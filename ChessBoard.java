@@ -4,9 +4,10 @@ import java.util.*;
 public class ChessBoard {
 	
 	Map<String,ChessPiece> chessboard;
+	Map<Character,String> piecename;
 	
 	ChessBoard(){
-		Map<String,ChessPiece> chessboard = new HashMap<String,ChessPiece>() ;
+		chessboard = new HashMap<String,ChessPiece>() ;
 		chessboard.put("a1", new ChessPiece('R','W')) ;
 		chessboard.put("b1", new ChessPiece('N','W')) ;
 		chessboard.put("c1", new ChessPiece('B','W')) ;
@@ -64,19 +65,21 @@ public class ChessBoard {
 		return " " ;
 	}
 	
-	void updateBoard(){
+	void updateBoard(String previous_position, String new_position){
+		
+		ChessPiece cp = chessboard.get(previous_position);
+		chessboard.remove(previous_position);
+		chessboard.put(new_position, cp);
 		
 	}
 	void displayBoard(){
+		
 		
 	}
 	void move(String move,int n){
 		ChessPiece piece = findPiece(move , n) ;
 		String previousposition = findPreviousPosition (piece ,move) ;
-		//calls findPiece
-		//findPreviousPosition
-		//updateBoard
-		//displayBoard
+		updateBoard(previousposition , move) ;
 	}
 	public static void main(String args[]){
 		
