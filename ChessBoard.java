@@ -86,7 +86,8 @@ public class ChessBoard {
 	void displayBoard(){
 		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
 		while(it.hasNext()){
-			ChessPiece cp = chessboard.get(it.next().getKey());
+			String pos = it.next().getKey();
+			ChessPiece cp = chessboard.get(pos);
 			String piece = piecename.get(cp.name);
 			if(cp.color == 'B'){
 				piece = "Black " + piece;
@@ -94,7 +95,7 @@ public class ChessBoard {
 			else {
 				piece = "White " + piece;
 			}	
-			System.out.println(it.next().getKey() + " : " + piece);
+			System.out.println(pos + " : " + piece + " ");
 		}
 	}
 	void move(String move,int n){
@@ -103,9 +104,5 @@ public class ChessBoard {
 		String previousposition = findPreviousPosition (piece ,move) ;
 		updateBoard(previousposition , move) ;
 	}
-	public static void main(String args[]){
-		ChessBoard cb = new ChessBoard();
-		cb.displayBoard();
-		//cb.move(move, n);
-	}
+	
 }
