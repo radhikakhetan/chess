@@ -7,7 +7,7 @@ public class ChessBoard {
 	Map<Character,String> piecename;
 	
 	ChessBoard(){
-		Map<String,ChessPiece> chessboard = new HashMap<String,ChessPiece>() ;
+		chessboard = new HashMap<String,ChessPiece>() ;
 		chessboard.put("a1", new ChessPiece('R','W')) ;
 		chessboard.put("b1", new ChessPiece('N','W')) ;
 		chessboard.put("c1", new ChessPiece('B','W')) ;
@@ -41,7 +41,13 @@ public class ChessBoard {
 		chessboard.put("g8", new ChessPiece('N','B')) ;
 		chessboard.put("h8", new ChessPiece('R','B')) ;
 		
-		//piecename.put('K', King);
+		piecename = new HashMap<Character,String>();
+		piecename.put('K', "King");
+		piecename.put('Q', "Queen");
+		piecename.put('B', "Bishop");
+		piecename.put('R', "Rook");
+		piecename.put('N', "Knight");
+		piecename.put(' ', "Pawn");
 		
 	}
 	char findPiece(String move){
@@ -60,7 +66,10 @@ public class ChessBoard {
 		
 	}
 	void displayBoard(){
-		
+		Iterator it = chessboard.entrySet().iterator();
+		while(it.hasNext()){
+			String 
+		}
 		
 	}
 	void move(String move){
