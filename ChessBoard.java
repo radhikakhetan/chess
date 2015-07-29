@@ -6,7 +6,7 @@ public class ChessBoard {
 	Map<Character, String> piecename;
 
 	public ChessBoard() {
-		chessboard = new HashMap<String, ChessPiece>();
+		chessboard = new TreeMap<String, ChessPiece>();
 		chessboard.put("a1", new ChessPiece('R', 'W'));
 		chessboard.put("b1", new ChessPiece('N', 'W'));
 		chessboard.put("c1", new ChessPiece('B', 'W'));
@@ -50,17 +50,8 @@ public class ChessBoard {
 	}
 
 	ChessPiece findPiece(String move, int turn) {
-		char name;
-		if (move.equals("o-o") || move.equals("OOO")) {
-
-		} else {
-			if (move.length() == 2)
-				name = ' ';
-			else
-				name = move.charAt(0);
-		}
-
-		char color;
+		char name = move.charAt(0);
+		char color = move.charAt(1);
 		if (turn == 1)
 			color = 'W';
 		else
@@ -69,27 +60,29 @@ public class ChessBoard {
 		return new ChessPiece(name, color);
 	}
 
-	String findPreviousPosition(ChessPiece piece, String move) {
-		boolean captured = move.contains("x");
-		if (move.length() != 2) {
-			move = move.substring(move.length() - 2);
-		}
-		List<String> validMoves = piece.findAllValidMoves(move, captured);
-		for (String s : validMoves) {
-			if (chessboard.containsKey(s)) {
-				ChessPiece p = chessboard.get(s);
-				if (piece.equals(p)) {
-					return s;
+	String findPreviousPosition(ChessPiece piece, ChessMove move) {
+		boolean captured = move.isCapturing();
+		
+		List<String> validMoves = piece.findAllValidMoves(move.getMove(), captured);
+		for (String eachValid : validMoves) {
+			if ( chessboard.containsKey(eachValid) ) {
+				if ( piece.equals(chessboard.get(eachValid)) ) {
+					if ( move.isAmbigous() ) {
+						if ( eachValid.contains(move.getAmbiguousPosition().toString()) ) {
+							return eachValid;
+						}
+					}
+					return eachValid;
 				}
 			}
 		}
 		return " ";
 	}
 
-	void updateBoard(String previous_position, String new_position) {
-		ChessPiece cp = chessboard.get(previous_position);
-		chessboard.remove(previous_position);
-		chessboard.put(new_position, cp);
+	void updateBoard(String previousPosition, String newPosition) {
+		ChessPiece cp = chessboard.get(previousPosition);
+		chessboard.remove(previousPosition);
+		chessboard.put(newPosition, cp);
 	}
 
 	void displayBoard() {
@@ -98,7 +91,6 @@ public class ChessBoard {
 		while (it.hasNext()) {
 			String pos = it.next().getKey();
 			ChessPiece cp = chessboard.get(pos);
-			System.out.println(pos);
 			String piece = piecename.get(cp.name);
 			if (cp.color == 'B') {
 				piece = "Black " + piece;
@@ -108,11 +100,40 @@ public class ChessBoard {
 			System.out.println(pos + " : " + piece);
 		}
 	}
+	
+	void performCastling(int turn, boolean kingSide) {
+		if ( turn == 1 ) {
+			if ( kingSide ) {
+				updateBoard("e1", "g1");
+				updateBoard("h1", "f1");
+			}
+			else {
+				updateBoard("e1", "c1");
+				updateBoard("a1", "d1");
+			}
+		}
+		else {
+			if ( kingSide ) {
+				updateBoard("e8", "g8");
+				updateBoard("h8", "f8");
+			}
+			else {
+				updateBoard("e8", "c8");
+				updateBoard("a8", "d8");
+			}
+		}
+	}
 
 	void move(String move, int turn) {
-		ChessPiece piece = findPiece(move, turn);
-		String previousposition = findPreviousPosition(piece, move);
-		updateBoard(previousposition, move);
+		ChessMove nextMove = new ChessMove(move);
+		if ( nextMove.isCastling() ) {
+			performCastling(turn, nextMove.isKingCastling());
+		}
+		else {
+			ChessPiece piece = findPiece(nextMove.getMove(), turn);
+			String previousPosition = findPreviousPosition(piece, nextMove);
+			updateBoard(previousPosition, nextMove.getMove());
+		}
 	}
 
 }
