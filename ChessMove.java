@@ -8,58 +8,46 @@ public class ChessMove {
 	boolean queenCastling;
 	ChessPiece cp;
 	
-	ChessMove(String move, int turn){
-		if(move.equals("o-o")){
+	ChessMove(String move, int turn) {
+		queenCastling = false;
+		kingCastling = false;
+		ambiguity = ' ';
+		file = ' ';
+		rank = -1;
+		isCapturing = false;
+		
+		if(move.equals("O-O")){
 			kingCastling = true;
-			queenCastling = false;
-			isCapturing = false;
-			file = ' ';
-			rank = -1;
-			ambiguity = ' ';
 			return;
 		}
 		else if(move.equals("O-O-O")){
-			kingCastling = false;
 			queenCastling = true;
-			isCapturing = false;
-			file = ' ';
-			rank = -1;
-			ambiguity = ' ';
 			return;
 		}
-		 char lastChar = move.charAt(move.length()-1);
-		 if (lastChar == '+' || lastChar == '#'){
-			 move = removeLastChar(move);
-		 }
+		
+		char lastChar = move.charAt(move.length()-1);
+		if (lastChar == '+' || lastChar == '#'){
+			move = removeLastChar(move);
+		}
 		rank = Character.getNumericValue((move.charAt(move.length() - 1)));
 		file = move.charAt(move.length() - 2);
-		queenCastling = false;
-		kingCastling = false;
+		
 		if(move.contains("x")){
 			isCapturing = true;
 		}
-		else{
-			isCapturing = false;
-		}
-		char name,color;
 		
-		if(Character.isUpperCase(move.charAt(0)) && move.length() > 3){
+		if(move.length() > 3){
 			ambiguity = move.charAt(1);
-			name = move.charAt(0);
 		}
-		else if(Character.isUpperCase(move.charAt(0))){
-			ambiguity = ' ';
+
+		char name = ' ';
+		if(Character.isUpperCase(move.charAt(0))){
 			name = move.charAt(0);
-		}
-		else{
-			name = ' ';
 		}
 		
-		if(turn == 1){
+		char color = 'B';
+		if(turn == 1) {
 			color = 'W';
-		}
-		else {
-			color = 'B';
 		}
 		cp = new ChessPiece(name,color);
 		
