@@ -16,8 +16,10 @@ class ChessPiece {
 								  {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
 								  {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}};
 
-	final int[][] blackPawn = {{0, -1}, {0, -2}, {-1, -1}, {-1, 1}};
-	final int[][] whitePawn = {{0, 1}, {0, 2}, {1, -1}, {1, 1}};
+	final int[][] blackPawn = {{0, -1}, {0, -2}};
+	final int[][] whitePawn = {{0, 1}, {0, 2}};
+	final int[][] blackPawnCapture = {{-1, -1}, {-1, 1}};
+	final int[][] whitePawnCapture = {{1, 1}, {-1, 1}};
 	
 	char name;
 	char color;
@@ -36,23 +38,31 @@ class ChessPiece {
 		return color == 'W';
 	}
 
-	public List<String> findAllValidMoves(String from) {
+	public List<String> findAllValidMoves(String from, boolean captured) {
+		char file = from.charAt(0);
+		int rank = Character.getNumericValue(from.charAt(1));
 		switch ( this.name ) {
 			case 'K':
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), kingMoves);
+				return findMovesForPiece(file, rank, kingMoves);
 			case 'Q':
-				return findMovesForQueen(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForQueen(file, rank);
 			case 'R':
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), rookMoves);
+				return findMovesForPiece(file, rank, rookMoves);
 			case 'N':
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), knightMoves);
+				return findMovesForPiece(file, rank, knightMoves);
 			case 'B':
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), bishopMoves);
+				return findMovesForPiece(file, rank, bishopMoves);
 			case ' ':
-				if ( this.color == 'W' )
-					return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), whitePawn);
-				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), blackPawn);
-					
+				if ( captured ) {
+					if ( this.color == 'W' )
+						return findMovesForPiece(file, rank, whitePawnCapture);
+					return findMovesForPiece(file, rank, blackPawnCapture);
+				}
+				else {
+					if ( this.color == 'W' )
+						return findMovesForPiece(file, rank, whitePawn);
+					return findMovesForPiece(file, rank, blackPawn);
+				}	
 			default:
 				return new ArrayList<String>();
 		}	
