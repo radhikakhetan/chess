@@ -67,8 +67,8 @@ public class ChessBoard {
 		for (String eachValid : validMoves) {
 			if ( chessboard.containsKey(eachValid) ) {
 				if ( piece.equals(chessboard.get(eachValid)) ) {
-					if ( move.isAmbigous() ) {
-						if ( eachValid.contains(move.getAmbiguousPosition().toString()) ) {
+					if ( move.isAmbiguous() ) {
+						if ( eachValid.contains(Character.toString(move.getAmbiguousPosition())) ) {
 							return eachValid;
 						}
 					}
