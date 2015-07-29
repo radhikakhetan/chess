@@ -15,6 +15,8 @@ class ChessPiece {
 								  {-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7},
 								  {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
 								  {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}};
+
+	final int[][] pawnMoves = {{0, 1}, {0, -1}};
 	char name;
 	char color;
 	
@@ -35,56 +37,40 @@ class ChessPiece {
 	public List<String> findAllValidMoves(String from) {
 		switch ( this.name ) {
 			case 'K':
-				return findAllValidKingMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), kingMoves);
 			case 'Q':
-				return findAllValidQueenMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForQueen(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			case 'R':
-				return findAllValidRookMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), rookMoves);
 			case 'N':
-				return findAllValidKnightMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), knightMoves);
 			case 'B':
-				return findAllValidBishopMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), bishopMoves);
 			case ' ':
-				return findAllValidPawnMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
+				return findMovesForPiece(from.charAt(0), Character.getNumericValue(from.charAt(1)), pawnMoves);
 			default:
 				return new ArrayList<String>();
 		}	
 	}
 
-	private List<String> findAllValidKingMoves(char file, int rank) {
+	private List<String> findMovesForPiece(char file, int rank, int[][] pieceMoves) {
 		List<String> possibleMoves = new ArrayList<String>();
-		
-		return possibleMoves;
-	}
-
-	private List<String> findAllValidQueenMoves(char file, int rank) {
-		List<String> possibleMoves = new ArrayList<String>();
-		return possibleMoves;
-	}
-
-	private List<String> findAllValidRookMoves(char file, int rank) {
-		List<String> possibleMoves = new ArrayList<String>();
-		return possibleMoves;	
-	}
-
-	private List<String> findAllValidKnightMoves(char file, int rank) {
-		List<String> possibleMoves = new ArrayList<String>();
-		for ( int[] row : knightMoves) {
-			String next = Character.toString((char)(file + row[0])) + Integer.toString(rank + row[1]);
-			possibleMoves.add(next);
+		for ( int[] row : pieceMoves) {
+			char newFile = (char) (file + row[0]);
+			int newRank = rank + row[1];
+			if ( insideBoard(newFile, newRank) ) {
+				possibleMoves.add(newFile + "" + newRank);
+			}
 		}
 		return possibleMoves;
 	}
 
-	private List<String> findAllValidBishopMoves(char file, int rank) {
-		List<String> possibleMoves = new ArrayList<String>();
+	private List<String> findMovesForQueen(char file, int rank) {
+		List<String> possibleMoves = findMovesForPiece(file, rank, rookMoves);
+		possibleMoves.addAll(findMovesForPiece(file, rank, bishopMoves));
 		return possibleMoves;
 	}
 
-	private List<String> findAllValidPawnMoves(char file, int rank) {
-		List<String> possibleMoves = new ArrayList<String>();
-		return possibleMoves;
-	}
 	private boolean insideBoard(char file, int rank){
 		return ('a' <= file && file <= 'h') && (1 <= rank && rank <= 8);
 	}
