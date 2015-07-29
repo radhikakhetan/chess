@@ -1,5 +1,5 @@
-
 import java.util.*;
+import java.util.Map.Entry;
 
 public class ChessBoard {
 	
@@ -40,6 +40,15 @@ public class ChessBoard {
 		chessboard.put("f8", new ChessPiece('B','B')) ;
 		chessboard.put("g8", new ChessPiece('N','B')) ;
 		chessboard.put("h8", new ChessPiece('R','B')) ;
+		
+		piecename = new HashMap<Character,String>();
+		piecename.put('K', "King");
+		piecename.put('Q', "Queen");
+		piecename.put('B', "Bishop");
+		piecename.put('R', "Rook");
+		piecename.put('N', "Knight");
+		piecename.put(' ', "Pawn");
+		
 	}
 	ChessPiece findPiece(String move , int n){
 		char name,color ;
@@ -73,11 +82,22 @@ public class ChessBoard {
 		
 	}
 	void displayBoard(){
-		
-		
+		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
+		while(it.hasNext()){
+			ChessPiece cp = chessboard.get(it.next());
+			String piece = piecename.get(cp.name);
+			if(cp.color == 'B'){
+				piece = "Black" + piece;
+			}
+			else {
+				piece = "White" + piece;
+			}	
+			System.out.println(it.next() + " : " + piece);
+		}
 	}
 	void move(String move,int n){
-		ChessPiece piece = findPiece(move , n) ;
+		
+		ChessPiece piece = findPiece(move ,n) ;
 		String previousposition = findPreviousPosition (piece ,move) ;
 		updateBoard(previousposition , move) ;
 	}
