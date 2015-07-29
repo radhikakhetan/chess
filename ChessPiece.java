@@ -1,6 +1,17 @@
 class ChessPiece {
 	
-	final int[][2] king = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+	final int[][2] kingMoves = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+	final int[][2] knightMoves = {{2, 1}, {1, 2}, {1, -2}, {2, -1}, 
+									{-2, -1}, {-1, -2}, {-1, 2}, {-2, 1}};
+	final int[][2] rookMoves = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, 
+								{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0},
+								{0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}, 
+								{-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0}};
+
+	final int[][2] bishopMoves = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7},
+								  {-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7},
+								  {1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
+								  {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7},};
 	char name;
 	char color;
 	
@@ -21,17 +32,17 @@ class ChessPiece {
 	public List<String> findAllValidMoves(String from) {
 		switch ( this.name ) {
 			case 'K':
-				return findAllValidKingMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidKingMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			case 'Q':
-				return findAllValidQueenMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidQueenMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			case 'R':
-				return findAllValidRookMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidRookMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			case 'N':
-				return findAllValidKnightMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidKnightMoves(from.charAt(0), Character.getNumericValue(from.chart(1)));
 			case 'B':
-				return findAllValidBishopMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidBishopMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			case '':
-				return findAllValidPawnMoves(from.charAt(0), Integer.parseInt(1));
+				return findAllValidPawnMoves(from.charAt(0), Character.getNumericValue(from.charAt(1)));
 			default:
 				return new ArrayList<String>();
 		}	
@@ -54,6 +65,10 @@ class ChessPiece {
 
 	private List<String> findAllValidKnightMoves(char file, int rank) {
 		List<String> possibleMoves = new ArrayList<>();
+		for ( int[] row : knightMoves) {
+			String next = (file + row[0]) + (rank + row[1]);
+			possibleMoves.add(next);
+		}
 		return possibleMoves;
 	}
 
