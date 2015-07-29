@@ -81,7 +81,4 @@ public class ChessBoard {
 		String previousposition = findPreviousPosition (piece ,move) ;
 		updateBoard(previousposition , move) ;
 	}
-	public static void main(String args[]){
-		
-	}
 }
