@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -51,29 +50,38 @@ public class ChessBoard {
 	}
 
 	ChessPiece findPiece(String move, int turn) {
-		char name, color;
-		if (move.length() == 2)
-			name = ' ';
-		else
-			name = move.charAt(0);
+		char name;
+		if (move.equals("o-o") || move.equals("OOO")) {
+
+		} else {
+			if (move.length() == 2)
+				name = ' ';
+			else
+				name = move.charAt(0);
+		}
+
+		char color;
 		if (turn == 1)
 			color = 'W';
 		else
 			color = 'B';
-		return new ChessPiece(name, color);
 
+		return new ChessPiece(name, color);
 	}
 
 	String findPreviousPosition(ChessPiece piece, String move) {
 		boolean captured = move.contains("x");
-		List<String> validMoves = piece.findAllValidMoves(move,captured);
+		if (move.length() != 2) {
+			move = move.substring(move.length() - 2);
+		}
+		List<String> validMoves = piece.findAllValidMoves(move, captured);
 		for (String s : validMoves) {
-			if(chessboard.containsKey(s)){
+			if (chessboard.containsKey(s)) {
 				ChessPiece p = chessboard.get(s);
-				if(piece.equals(p)){
+				if (piece.equals(p)) {
 					return s;
 				}
-			}	
+			}
 		}
 		return " ";
 	}
@@ -85,7 +93,8 @@ public class ChessBoard {
 	}
 
 	void displayBoard() {
-		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet().iterator();
+		Iterator<Entry<String, ChessPiece>> it = chessboard.entrySet()
+				.iterator();
 		while (it.hasNext()) {
 			String pos = it.next().getKey();
 			ChessPiece cp = chessboard.get(pos);
@@ -95,8 +104,8 @@ public class ChessBoard {
 				piece = "Black " + piece;
 			} else {
 				piece = "White " + piece;
-			}	
-			System.out.println(pos+" : "+piece);
+			}
+			System.out.println(pos + " : " + piece);
 		}
 	}
 
