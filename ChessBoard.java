@@ -71,7 +71,9 @@ public class ChessBoard {
 							return eachValid;
 						}
 					}
-					return eachValid;
+					else {
+						return eachValid;
+					}
 				}
 			}
 		}
