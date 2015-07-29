@@ -20,7 +20,7 @@ public class ChessPieceTest {
 		valid.add("c3");
 		valid.add("c5");
 		valid.add("d6");
-		List<String> check = piece.findAllValidMoves("e4");
+		List<String> check = piece.findAllValidMoves("e4", false);
 		assertTrue(valid.containsAll(check) && check.containsAll(valid));
 	}
 	
@@ -37,7 +37,7 @@ public class ChessPieceTest {
 		valid.add("f6");
 		valid.add("g7");
 		valid.add("h8");
-		List<String> check = piece.findAllValidMoves("b2");
+		List<String> check = piece.findAllValidMoves("b2", false);
 		assertTrue(valid.containsAll(check) && check.containsAll(valid));
 	}
 	
@@ -54,7 +54,17 @@ public class ChessPieceTest {
 		valid.add("f6");
 		valid.add("b2");
 		valid.add("h8");
-		List<String> check = piece.findAllValidMoves("g7");
+		List<String> check = piece.findAllValidMoves("g7", false);
+		assertTrue(valid.containsAll(check) && check.containsAll(valid));
+	}
+	
+	@Test
+	public void testFindAllPossibleMovesPawnCapture() {
+		ChessPiece piece = new ChessPiece(' ', 'B');
+		List<String> valid = new ArrayList<>();
+		valid.add("f5");
+		valid.add("d5");
+		List<String> check = piece.findAllValidMoves("e6", true);
 		assertTrue(valid.containsAll(check) && check.containsAll(valid));
 	}
 }
