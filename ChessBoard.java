@@ -39,12 +39,18 @@ public class ChessBoard {
 		chessboard.put("f8", new ChessPiece('B','B')) ;
 		chessboard.put("g8", new ChessPiece('N','B')) ;
 		chessboard.put("h8", new ChessPiece('R','B')) ;
-		
-		
-		
 	}
-	char findPiece(String move){
-		return 0;
+	ChessPiece findPiece(String move , int n){
+		char name,color ;
+		if(move.length() == 2)
+			name = ' ' ;
+		else
+			name = move.charAt(0);
+		if(n==0)
+			color = 'W';
+		else
+			color = 'B' ;
+		return new ChessPiece(name,color) ;
 		
 	}
 	String findPreviousPosition(char piece, String move){
