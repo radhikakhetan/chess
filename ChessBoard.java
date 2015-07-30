@@ -62,6 +62,9 @@ public class ChessBoard {
 
 	String findPreviousPosition(ChessMove move) {
 		boolean captured = move.isCapturing();
+		if ( move.isEnpassant() ) {
+			removeEnPassantPawn(move);
+		}
 		List<String> validMoves = move.getChessPiece().findAllValidMoves(move.getMove(), captured);
 		for (String eachValid : validMoves) {
 			if ( chessboard.containsKey(eachValid) ) {
@@ -79,8 +82,17 @@ public class ChessBoard {
 		}
 		return " ";
 	}
+	
+	void removeEnPassantPawn(ChessMove move) {
+		int changeInRank = move.getChessPiece().isWhite() ? -1 : 1;
+		System.out.println(move.getMove());
+		String epPosition = move.getFile() + "" + (move.getRank() + changeInRank);
+		System.out.println("Enpassant " + epPosition);
+		chessboard.remove(epPosition);
+	}
 
 	void updateBoard(String previousPosition, String newPosition) {
+		//System.out.println(previousPosition + " to " + newPosition);
 		ChessPiece cp = chessboard.get(previousPosition);
 		chessboard.remove(previousPosition);
 		chessboard.put(newPosition, cp);
@@ -126,11 +138,13 @@ public class ChessBoard {
 
 	void move(String move, int turn) {
 		ChessMove nextMove = new ChessMove(move, turn);
+		//System.out.println(nextMove.getMove());
 		if ( nextMove.isCastling() ) {
 			performCastling(turn, nextMove.isKingCastling());
 		}
 		else {
 			String previousPosition = findPreviousPosition(nextMove);
+			//System.out.println("Previous is " + previousPosition);
 			updateBoard(previousPosition, nextMove.getMove());
 		}
 	}
