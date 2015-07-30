@@ -31,9 +31,8 @@ public class ChessMove {
 		char lastChar = move.charAt(move.length() - 1);
 		if (lastChar == '+' || lastChar == '#') {
 			move = removeLastChar(move);
-		} else if (move.contains("e.p."))
-			;
-		{
+		} 
+		else if (move.contains("e.p.")){
 			isEnpassant = true;
 			int i = 0;
 			while (i < 4) {
@@ -48,9 +47,14 @@ public class ChessMove {
 			isCapturing = true;
 		}
 
-		if (move.length() > 3 && move.charAt(0) != 'x') {
-			ambiguity = move.charAt(1);
+		/*if (Character.isUpperCase(move.charAt(0))){
+			if( move.length() > 4 || (move.length() == 4 && !move.contains("x"))) {
+				ambiguity = move.charAt(1);
+			}
 		}
+		else if(Character.isLowerCase(move.charAt(0)) && move.length() >=  3){
+			ambiguity = move.charAt(0);
+		}*/
 
 		char name = ' ';
 		if (Character.isUpperCase(move.charAt(0))) {
@@ -102,9 +106,13 @@ public class ChessMove {
 	boolean isEnpassant() {
 		return isEnpassant;
 	}
-
+	char getFile(){
+		return file;
+	}
+	int getRank(){
+		return rank;
+	}
 	String getMove() {
 		return file + "" + rank;
 	}
-
 }
