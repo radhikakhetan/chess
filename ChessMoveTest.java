@@ -1,6 +1,4 @@
 package chess;
-
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -31,9 +29,16 @@ public class ChessMoveTest {
 		assertEquals(m.isAmbiguous(), false);
 	}
 
-	
+	@Test
 	public void testGetAmbiguousPosition() {
+		m = new ChessMove("hg7",1);
+		assertEquals(m.getAmbiguousPosition(), 'h');
 		
+		m = new ChessMove("Nfh4",1);
+		assertEquals(m.getAmbiguousPosition(), 'f');
+		
+		m = new ChessMove("xe7",1);
+		assertEquals(m.getAmbiguousPosition(), ' ');
 	}
 
 	@Test
@@ -71,7 +76,19 @@ public class ChessMoveTest {
 		m = new ChessMove("O-O-O",1);
 		assertEquals(m.isQueenCastling(), true);
 	}
-
+	
+	@Test
+	public void testIsEnpassant() {
+		m = new ChessMove("e3",1);
+		assertEquals(m.isEnpassant(), false);
+		
+		m = new ChessMove("Nd8e.p.",1);
+		assertEquals(m.isEnpassant(), true);
+		
+		m = new ChessMove("O-O-O",1);
+		assertEquals(m.isEnpassant(), false);
+	}
+	
 	@Test
 	public void testGetMove() {
 		m = new ChessMove("e3",1);
